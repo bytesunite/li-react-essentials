@@ -1,0 +1,70 @@
+Chapter 1 React Fundamentals.
+
+React uses the concept of components to represent different pieces of a user interface. Components consist of elements that eventually get rendered to the DOM using JavaScript.
+
+React 19 introduces a new online React Compiler Playground.
+You can write a React component and it will display how React transforms this into JavaScript that is optimized for the browser.
+Additionally you can copy the url and send it to someone to share your code.
+URL: https://playground.react.dev
+
+The React Compiler is a new feature in React 19.
+It is attempting to do more heavy lifting for the developer, saving them the trouble of trying to figure how to best use hooks such as useMemo() and useCallback() for optimal performance. This helps with productivity but it also helps reduce errors that come from improper use of React hooks.
+As a results the Compiler helps optimized code for production from your components without the hassle.
+
+The instructor gives a simple example of creating a Header component and you can see the optimized JavaScript that will be run in the browser.
+
+EX:
+    function Header() {
+      return (
+        <header>
+          <h1>Hello New React Compiler</h1>
+        </header>
+      )
+    }
+
+RESULTS:
+    function Header() {
+      const $ = _c(1);
+      let t0;
+      if($[0] === Symbol.for("react.memo_cache_sentinal")) {
+        t0 = (
+          <header>
+            <h1>Hello New React Compiler</h1>
+          </header>
+        );
+        $[0] = t0;
+      } else {
+        t0 = $[0];
+      }
+      return t0;
+    }
+
+
+
+Setting up your browser
+----------------------------------
+It is suggested to install React Developer tools in your browser such as Chrome, Firefox, or Edge. If you are using Safari there are additional steps you must take. Details are provided at react.dev.
+URL: https://react.dev/learn/react-developer-tools
+
+After this is installed, when you visit a website that uses React, such as (https://react.dev), you will provided a means to explore the React components used in the webpage. In Developer Tools you will see a "Components" tab that lets you explore React components.
+
+Example: Chrome
+If you do not see the React icon in the upper right corner you can click the icon that looks like a puzzle piece (browser extensions) and click on "React Developer Tools". This should expose a react icon.
+With the React icon visible, when you visit a site that uses React it will light up. Then you can open the browser Developer Tools and go to the "Components" tab to explore the website's React components.
+
+
+Setting up your development environment
+-----------------------------------------
+The instructor uses VSCode as the editor.
+A couple extensions are mentioned and installed.
+ * prettier - code formatting
+   when using prettier click on the extension and search for format on save and make sure this is checked. This allows prettier to format code when you save the file.
+ * nightowl - color themes for vscode (light/dark)
+
+
+Code Sandbox
+------------------------------
+The instructor uses VSCode but mentions you can also go online and use a code sandbox to test out code. Consider this an in browser editor.
+You can sign in with GitHub, Google, or Apple to save your changes.
+URL: https://www.react.new
+
