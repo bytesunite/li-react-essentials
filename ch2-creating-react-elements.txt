@@ -1,0 +1,289 @@
+Chapter 2 Creating React Elements
+
+Vite is used to create new React projects.
+URL: https://vitejs.dev
+
+
+The instructor creates a new project called "react-project" with Vite, using the react template. At the time, Vite installed React 18 but and the instructor deletes it from package.json and installs release candidate React 19. 
+However, currently Vite uses React 19 so you can skip this step.
+
+The instructor uses the longhand command to create a new React project.
+The alternative is to simply type the following and project the project name (react-project) and select React and JavaScript. Then you can cd into the "react-project" directory and type npm install.
+
+  > npm create vite@latest
+  -project name: react-project
+  -framework: React
+  -variant: JavaScript
+
+  > cd react-project
+  > npm install
+  ...
+
+At this point a new React 19 project is created.
+
+Next you can start the project with a vite script. If you look in package.json you can find "scripts" that shows "dev":"vite" which tells you that you can run "npm run dev" to launch this script.
+
+
+react-project/> npm run dev
+...Vite v5.4.0
+Local: http://localhost:5173/
+...
+
+This tells you which url to open in a browser to view the default React project that Vite creates for you. Open this url in a browser to see the default project. You will modify the files to create your own app from the scaffold that Vite created for you.
+
+For example src/App.jsx is the main component for the app.
+Go ahead an modify the <h1> in this file and save it. You should see the page in the browser update as soon as you save the file and see the new heading you provided.
+
+Creating React Elements
+-----------------------------
+The first thing the instructor does is strip App.jsx down to the bare bones to display a <h1> header.
+
+[App.jsx]
+   import './App.css';
+
+   function App(){
+    return <h1>Hello React!</h1>;
+   }
+
+   export App;
+
+
+You should now see a simple page with "Hello React!" and the main page heading.
+
+Now if you look at src/main.jsx you will see it uses React's "createRoot()" and provides a simple DOM method "getElementById()" to access "root", and render() it. The "root" is found in "react-project/index.html" which has <div id="root> which is where your App component is rendered in the DOM.
+You will also see a <script> tag that references "src/main.jsx".
+As you can see this is the connection between them.
+
+The instructor also removes <StrictMode> from main.jsx but you don't really need to do this. StrictMode is for development only and provides additional debugging features. Just know if you don't remove StrictMode your code runs TWICE, which can cause confusion later when dealing with hooks later in the course. Strict Mode runs TWICE, so remove it or don't forget its here later on.
+
+So after you strip down App.jsx with a single header, go to the browser dev tools and view the "Elements" tab. What you will see is the h1 nested inside the <div id="root">. This confirms that React is inserting the return value of App.jsx inside this div.
+
+
+JSX Syntax
+-------------------------
+JavaScript XML (JSX) is a syntax that lets you write HTML-like tags inside of JavaScript. This can be confusing at first but you get used to it and it becomes very helpful.
+Just know that this is NOT HTML and this JSX syntax is "transpiled" to JavaScript before React runs the JS which inserts content in the DOM.
+
+To create a variable and insert the value into JSX you use {} curly braces to tell React to insert the value into JSX.
+
+[App.jsx]
+  import './App.css';
+
+  let language = 'JavaScript';
+
+  function App(){
+    return <h1>Hello {language}</h1>;
+  }
+
+This will create <h1>Hello JavaScript</h1>
+
+The instructor show how to even open up the "emoji viewer" on a Mac by pressing CMD + CTRL + SPACEBAR and click on it to insert it into a string.
+
+EX:
+  1. type let moon = 
+     leave the cursor after the = sign
+  2. open emoji viewer (cmd + ctrl + spacebar) and search for "moon"
+     click on a moon emoji
+     this will insert it into VSCode
+  3. Surround this moon icon with quotes and end it with a semi-colon.
+  4. Just like the language variable, insert it with {moon}
+     open the browser to test your results
+
+[App.jsx]
+  import './App.css';
+
+  let language = 'JavaScript';
+  let moon = "moon Emoji goes here";
+
+  function App(){
+    return <h1>Hello {language} {moon}</h1>;
+  }
+
+
+JavaScript expressions can be used inside of JSX with {} curly braces.
+Using the example above, the variable "language" holds a string "JavaScript", but you can interact with the variable, such as make it uppercase. 
+
+  <h1>Hello {language.toUpperCase()}</h1>
+
+RESULTS: <h1>Hello JAVASCRIPT</h1>
+
+
+Creating a React Component
+---------------------------------
+A React component can be created by defining a function where the name of the function starts with an uppercase letter. This is required for React to identify the function as a component versus a regular javascript function.
+
+NOTE: React has built-in JSX tags that mimic HTML tags.
+      When you type <header> in a component this is JSX
+      that eventually get rendered to the DOM as HTML.
+
+After creating a component you can use it like any other tag.
+For example lets create a "Header" component and insert it into our App component.
+
+[App.jsx]
+  import './App.css';
+
+  function Header() {
+    return (
+      <header>
+        <h1>Dan's Kitchen</h1>
+      </header>
+    )
+  }
+
+  function App(){
+    return <Header/>;
+  }
+
+  export default App;
+
+
+NOTE: The use of ( ) after the "return" statement allows for multiline elements instead of writing all tags on a single line.
+
+Go to the browser to see the results, then look in dev tools and use React Dev Tools to view the components (App Header).
+It will show you any props of a component and give you insights into component tree (Header was rendered by App)
+
+NOTE: You will see squigly red underline if VSCode detects issue with your code.
+
+The instructor then shows how you can use both your component that renders a header and a built-in <main> & <h2> component to add more to your page.
+
+[App.jsx]
+  import './App.css';
+
+  function Header() {
+    return (
+      <header>
+        <h1>Dan's Kitchen</h1>
+      </header>
+    )
+  }
+
+  function App(){
+    return (
+      <Header/>
+      ^^^^^^^^^
+      <main>
+      ^^^^^^
+        <h2>Our food is the best</h2>
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      </main>
+      ^^^^^^^
+    );
+  }
+
+  export default App;
+
+
+So what is wrong? We used () to wrap multiline elements but it won't work.
+If you go to the browser React does a great job at helping you figure out what is wrong. In this example it says "Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>?"
+
+The reason is React MUST wrap multiple sibling tags in a single parent tag. This does not mean you are limited to div hell. Instead you can use a "fragment" when wrapping multiple siblings when a parent tag is pointless and it will insert them into the DOM without a parent if you don't need one.
+
+The instructor wraps everything in a <div> but this is not always the best solution. 
+
+  function App(){
+    return (
+      <div>
+        <Header/>
+        <main>
+          <h2>Our food is the best</h2>
+        </main>
+      </div>
+    );
+  }
+
+RESULTS:
+
+  <div id="root">
+    <div>
+      <header>
+        <h1>Eve's Kitchen</h1>
+      </header>
+      <main>
+        <h2>We serve the most delicious food around</h2>
+      </main>
+    </div>
+  </div>
+
+
+Instead, I like keeping the source clean and don't need a double div.
+So, just like React's suggestion I can use a Fragment...
+
+  return (
+    <>
+      <Header/>
+      <main>
+        <h2>We serve the most delicious food around</h2>
+      </main>
+   </>
+  )
+
+
+RESULTS:
+  <div id="root">
+    <header>
+      <h1>Eve's Kitchen</h1>
+    </header>
+    <main>
+      <h2>We serve the most delicious food around</h2>
+    </main>
+  </div>
+
+
+This looks much better, no div hell.
+
+
+Component Properties (props)
+------------------------------------
+We saw how to insert variables into JSX but we can also pass values to a component via a tag attribute, then use it inside our component via a function parameter. By default React sends a single object to your component called "props".
+If you want to see what this object looks like just use a console.log() inside your Header component before the return statement.
+
+[App.jsx]
+  import './App.css';
+
+  function Header(props) {
+    return (
+      <header>
+        <h1>{props.name}'s Kitchen</h1>
+      </header>
+    )
+  }
+  
+  function App(){
+    return (
+      <div>
+        <Header name="Mike" />
+        <main>
+          <h2>Our food is the best</h2>
+        </main>
+      </div>
+    );
+  }
+
+The result is "Mike's Kitchen".
+We pass the value to the component via an attribute of <Header name='Mike'> then inside the Header component we access via the props parameter within the component (props.name) and we even add to the value to create "Mike's".
+
+
+Destructuring component properties
+----------------------------------------
+An alternative to accessing values via the "props" object {props.name}, you can destructure the object to target individual attributes {name, year}.
+
+  function Header({name, year}) {
+    return (
+      <header>
+        <h1>{props.name}'s Kitchen</h1>
+        <p>Copyright {year}</p>
+      </header>
+    )
+  }
+
+    function App(){
+    return (
+      <div>
+        <Header name="Mike" year={new Date().getFullYear()}/>
+        <main>
+          <h2>Our food is the best</h2>
+        </main>
+      </div>
+    );
+  }
+
