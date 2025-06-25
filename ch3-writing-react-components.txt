@@ -1,0 +1,162 @@
+Chapter 3 - Writing React Components
+
+ * working with lists
+ * adding keys to list items
+ * displaying images with React
+ * using fragments
+
+
+Working with lists
+----------------------------------
+The instructor starts out by replacing the <main> element with a custom component <Main> that returns a static list.
+Then, it is updated to demonstrate using a dynamic list. A list is created and assigned to a variable in App.jsx and then this list is passed to the custom <Main> component.
+
+Feel free to come up with your own food choices.
+The instructor uses the following...
+
+[App.jsx]
+   ...
+   const items = [
+    "Macaroni and Cheese",
+    "Salmon with Potatoes",
+    "Tofu with Vegetables",
+   ];
+
+   function Header(){ ... }
+
+   function Main({dishes}) {
+    return (
+      <ul style={{listStyle: 'none'}}>
+      {dishes.map((dish) => <li key={dish}>{dish}</li>)}
+      </ul>
+    )
+   }
+
+   function App(){
+    return (
+      <>
+        <Header />
+        <Main dishes={items} />
+      </>
+    )
+   }
+
+In the example above I added a key, which is addressed by the instructor later.
+I added CSS list styling to the <ul> instead of individual <li> items.
+
+In the instructor's example a CSS style of "listStyleType" is added to each list item to change the list style to "none". EX: <li style={{listStyleType: 'none'}}>{dish}</li>
+This does not seem right because 
+1. you can easily set the style on the parent <ul> rather than each individual <li>.
+2. The CSS property "listStyle" is shorthand for listStyleType.
+
+If you view your code in the browser it will complain that each child in a list should have a unique "key". My example above addresses this because it used "key" but the instructor addresssing this in the next lesson.
+
+
+Adding keys to list items
+---------------------------------------
+React uses a unique key to help keep track of each item via a "key" attribute with a unique value.
+The JavaScript map() method is commonly used in React to generate content from lists.
+The first argument is the value, the second is an (index).
+Although the following example works using an index, React warns against this.
+
+
+  const items = [
+   "Macaroni and Cheese",
+   "Salmon with Potatoes",
+   "Tofu with Vegetables",
+  ];
+  
+  function Main({dishes}){
+    return (
+      <ul>
+        dishes.map((dish,i) => <li key={i}>{dish})
+      </ul>
+  ...
+  function App(){
+    ...
+    <Main dishes={items}/>
+  }
+
+
+React warns against this because the "index" is not a unique identifier for a value. Instead an index accesses a position inside the collection.
+When the collection changes the index still is based on position, not value.
+
+Often lists of data come from a database and it automatically assigns a unique ID or uses something like a unique product ID.
+
+In this example we can simulate this by generating a unique id for each item in our list, and use the id as the key in our component.
+
+  const items = [
+   "Macaroni and Cheese",
+   "Salmon with Potatoes",
+   "Tofu with Vegetables",
+  ];
+
+  const dishObjects = items.map((dish,index)=> ({
+    id: index,
+    title: dish
+  }));
+  
+  function Main({dishes}){
+    return (
+      <ul>
+        dishes.map((dish) => <li key={dish.id}>{dish.title})
+      </ul>
+  ...
+  function App(){
+    ...
+    <Main dishes={dishObjects}/>
+  }
+
+
+
+The problem with index is that values are NOT identified uniquely by index.
+An array uses an index to access by position only, not value. 
+Once the array is modified (add, remove, or move), values within the array no longer have the same index number.
+
+-- my note --
+  You might think an array index would do the trick but this fails when inserting and deleting items from the list.
+
+  The toSpliced() method on an array will create a new array. 
+  toSpliced arguments are (starting index, items to remove or skip, value to insert)
+  It is common not to modify objects directly in React but to create new ones.
+  The reason for this is "reference types".
+  
+  // index     0      1      2
+  let items = ["one", "two", "three"];
+  
+  // modify the array
+  items = items.toSpliced(2,0,'two and a half');
+  //
+  // index 0      1      2                 3
+  //      ["one", "two", "two and a half", "three"]
+
+  Attempting to delete "three" by index (2),
+  would delete "two and a half" accidentally.
+
+  In comparison, a unique key helps track values.
+  [ {key: 'i0a', value: "one"}, 
+    {key: 'i0b', value: "two"} ]
+  
+  // add a new item - give it a unique id
+    [ {key: 'i0a', value: "one"}, 
+      {key: 'i0c', value: "two and a half"},
+      {key: 'i0b', value: "two"} ]
+
+  Attempting to delete "two" by index (1) after changes to an array, it would incorrectly delete "two and a half".
+  However, with a unique key (i0b or whatever the unique key is) the correct item is removed.
+  
+  remove item with key 'i0b', removes "two".
+
+  [ {key: i0a, value: "one"}, 
+   {key: i0c, value: "two and a half"} ]
+
+-- end my note --
+  
+
+
+
+
+
+
+
+  
