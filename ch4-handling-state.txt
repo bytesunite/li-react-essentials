@@ -59,6 +59,62 @@ In the example "rest" can be any variable name but a common convention is to use
 
 
 
+Understanding the useState Hook
+------------------------------------------
+The first step to using state is to import the useState hook from React.
+This function is used to update the state of the application.
+
+    import { useState } from 'react';
+
+
+Next, you will create some app state. 
+The instructor collapses all components in VSCode except the App component, which is the focus of demonstrating state.
+When invoking the "useState()" function, it returns an array of 2 elements, an undefined value and a function. 
+Additionally you can provide an argument to useState() to set an initial value that will be set for the variable that is returned.
+In the last lesson you learned about destructuring an Array so we can define variables for each array item.
+
+Inside the App component a new state variable "status" and setter function "setStatus" is created from the useState hook. An initial value of "Open" is set. A console.log(status) will show "Open".
+
+The "status" state variable is meant for reading the current value. The setter function (setStatus) is meant to update the state variable. 
+NOTE: The common convention is to name your setter by beginning with the word "set".
+
+The instructor uses an <h1> for the status message but this doesn't make sense because we already have one in the Header component.
+I used a <p> tag instead.
+
+  function App(){
+    const [status, setStatus] = useState("Open");
+    console.log(status);
+    return (
+      <>
+        <p>The restaurant is currently {status}</p>
+        <Header name='Jane' year={new Date().getFullYear()} />
+        <Main dishes={dishObjects} />
+      </>
+    )
+  }
+
+
+So at this point we can see the restaurant is "Open". However, currently we are not changing the value so the instructor shows how to add a <button> to change the status state variable value to "Closed" when the button is clicked. The "onClick()" attribute is given an arrow function and within it "setStatus" is called with a new value of "Closed".
+Clicking the button more than once does nothing. 
+
+  function App(){
+    const [status, setStatus] = useState("Open");
+    console.log(status);
+    return (
+      <>
+        <p>The restaurant is currently {status}</p>
+        <button onClick={() => setStatus('Closed')} >
+          Close Restaurant
+        </button>
+        <Header name='Jane' year={new Date().getFullYear()} />
+        <Main dishes={dishObjects} />
+      </>
+    )
+  }
+
+
+The instructor did not write the code to toggle the value between Open/Closed in this lesson (see the next lesson for this).
+
 
 
 
