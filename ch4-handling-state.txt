@@ -117,6 +117,32 @@ The instructor did not write the code to toggle the value between Open/Closed in
 
 
 
+Toggling State with a button
+----------------------------------------------
+Currently we can click the button to change the status state from "Open" to "Closed". Clicking it more than once does nothing.
+The instructor addresses this by showing how we can toggle the state using a button click.
+
+The instructor's first solution is to create another button.
+
+    ...
+    <button onClick={() => setStatus('Open')}>Open Restaurant</button>
+    <button onClick={() => setStatus('Closed')}>Close Restaurant</button
+
+Then the instructor shows how to do this with a single button.
+A few things will change. The initial state is set to false.
+Then we can use the value of the status state to update both the paragraph informing us if the restaurant is open/closed and we can also update the button by toggling the text.
+
+  ...  
+  return (
+    <>
+      <p>The restaurant is currently {status ? 'Open' : 'Closed'}.</p>
+      <button onClick={() => setStatus(!status)} >
+        {status ? 'Close' : 'Open'} Restaurant
+      </button>
+      <Header name='Jane' year={new Date().getFullYear()} />
+      <Main dishes={dishObjects} />
+    </>
+  )
 
 
 

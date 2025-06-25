@@ -37,19 +37,14 @@ const dishObjects = items.map((dish, i) => (
 
 
 function App() {
-  const [status, setStatus] = useState("Open");
-
-  //const handleClick = () => {
-  //  setStatus((prevStatus) => {
-  //    return prevStatus === 'Open' ? 'Closed' : 'Open';
-  //  })
-  //}
+  // const [status, setStatus] = useState('Open');
+  const [status, setStatus] = useState(true);
 
   return (
     <>
-      <p>The restaurant is currently {status}.</p>
-      <button onClick={() => setStatus('Closed')} >
-        Status
+      <p>The restaurant is currently {status ? 'Open' : 'Closed'}.</p>
+      <button onClick={() => setStatus(!status)} >
+        {status ? 'Close' : 'Open'} Restaurant
       </button>
       <Header name='Jane' year={new Date().getFullYear()} />
       <Main dishes={dishObjects} />
