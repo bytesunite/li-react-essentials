@@ -1,0 +1,66 @@
+Chapter 4 - Handling State in a React Project
+
+ * Destructuring arrays
+ * Understanding the useState hook
+ * Toggling state with a button
+ * Handling state with nested components
+ * Managing state with useReducer
+ * Working with the useEffect hook
+
+
+Destructuring arrays
+---------------------------------
+The lesson starts out by creating a simple array of strings and accessing them by index.
+
+    const animals = ['giraffe', 'zebra', 'bear'];
+
+    console.log(animals[0]);  // giraffe
+
+We can also take advantage of JavaScript destructuring by extracting values from the array into variables.
+
+    const animals = ['giraffe', 'zebra', 'bear'];
+    const [firstAnimal] = animals;
+    console.log(firstAnimal); // giraffe
+
+You can destructure the array by position from left to right.
+
+    const animals = ['giraffe', 'zebra', 'bear'];
+    const [firstAnimal, secondAnimal, thirdAnimal] = animals;
+    console.log(firstAnimal); // giraffe
+    console.log(secondAnimal); // zebra
+    console.log(thirdAnimal); // bear
+
+It is also possible to skip over elements with commas
+
+    const animals = ['giraffe', 'zebra', 'bear'];
+    const [, ,thirdAnimal] = animals;
+    console.log(firstAnimal); // undefined
+    console.log(secondAnimal); // undefined
+    console.log(thirdAnimal); // bear
+
+
+The instructor does not cover the rest/spread operator (...) which is used to group multiple items and then expand them. This can be helpful in React props. The instructor may or may not cover this later.
+Both rest and spread use the same operator (...) but have separate purposes.
+In the example "rest" can be any variable name but a common convention is to use this name.
+
+    const animals = ['giraffe', 'zebra', 'bear'];
+
+    // rest operator will group items together
+    const [firstAnimal, ...rest] = animals;
+
+    console.log(firstAnimal);  // giraffe
+    console.log(rest); // ['zebra', 'bear']
+
+    // spread operator will expand items from a collection
+    const [secondAnimal, thirdAnimal] = [...rest];
+
+    console.log(secondAnimal); // zebra
+    console.log(thirdAnimal);  // bear
+
+
+
+
+
+
+
+
