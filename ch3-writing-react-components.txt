@@ -154,6 +154,46 @@ Once the array is modified (add, remove, or move), values within the array no lo
   
 
 
+Displaying images with React
+-------------------------------
+https://github.com/LinkedInLearning/react-essential-training-5949338/tree/03_03b
+
+The instructor adds a new folder "src/images" which has a image "chef.jpg".
+We will learn how to display this image in a React App.
+
+First, import the the chef image into to file where it will be used.
+
+  import chef from './images/chef.jpg';
+
+The instructor adds the image in the custom Main component.
+A main tag wraps the image tag and unordered list tag.
+
+The <img> component itself acts like the HTML equivalent so you can use the "src, alt, height" attributes.
+NOTE: To specify a number such as width, wrap it in curly braces {200}
+      If you want percent/rem use a string "1.5rem".
+      You can also specify the "style" attribute:  style={{height: 200}}
+
+   <main>
+    <img src={chef} alt="A smiling restaurant chef" height:{200} />
+    <ul>
+    ...
+    </ul>
+   </main>
+
+
+TIP: It is a good practice to include alt text to describe the image for screen readers.
+
+If you want, you can use an external image by providing a url.
+
+  <img src="http://example.com/chef.jpg" />
+
+
+TIP: If you didn't know, you can also access your GitHub image using your GitHub name followed by .png
+For example the instructor's profile image would be:
+
+   https://github.com/eveporcello.png
+
+
 
 
 
