@@ -195,6 +195,135 @@ For example the instructor's profile image would be:
 
 
 
+Using Fragments
+---------------------------------------
+The instructor modifies the custom Main component to throw an error.
+A sibling <div> tag to the <main> tag is created.
+Running the app will throw an error complaining about adjacent JSX.
+
+  // Fails!
+  return (
+    <div>
+      <h2>Welcome to our restaurant</h2>
+    </div>
+    <main>
+     ...
+    </main>
+  )
+
+This error was already brought up once in a previous lesson and the instructor fixed is by wrapping all siblings in a <div> tag.
+However, React provides a Fragment component. In the past it was React.Fragment but the new way is a simple empty element <></>.
+
+In the early days of react multiple sibling tags had to be wrapped in a useless <div> to meet the requirements that a component must return a single parent tag.
+This pattern is similar to "div hell", where web developers overused <div> tags for practically everything, when a more appropriate semantic tag should have been used.
+  
+  // This works but is ugly - div hell
+  return (
+    <div>
+      <div>
+        <h2>Welcome to our restaurant</h2>
+      </div>
+      <main>
+       ...
+      </main>
+    </div>
+  )
+
+As React improved a Fragment tag was introduced, which let you produce results that would not insert useless <div> tags into your final webpage.
+In the beginning you were limited to React.Fragment.
+You could do this a couple ways, import React from 'react' and use <React.Fragment>
+or you could do the following:
+
+  import { Fragment } from 'react';
+
+  function MyComponent(){
+    return (
+      <Fragment>
+       ..
+      </Fragment>
+    );
+  }
+
+
+Then React introduced a clean and compact solution for a Fragment, an empty tag.
+
+    return (
+      <>
+        <h2>Welcome to our restaurant</h2>
+        <main>
+         ...
+        </main>
+      <>
+    );
+  }
+
+
+The <> is never rendered in the DOM. It provides cleaner HTML.
+
+   <h2>
+   <main>
+    ...
+   </main>
+
+
+The instructor does NOT go into details of WHY React forces a single parent element returned from a React component. However, if you think about it, a React component is just a function and a JS function cannot return multiple values.
+Here are a few examples:
+
+  // Uncaught syntaxError: Unexpected string
+  function fn(){
+    return "one" "two";
+                 ^^^^^^
+  }
+
+
+  // Uncaught syntaxError: Unexpected number
+  function fn(){
+    return 1 2;
+             ^^
+  }
+
+  // Uncaught syntaxError: Unexpected token {
+  function fn() {
+    return {id:1, text:'one'} {id:2, text:'two'};
+                              ^^^^^^^^^^^^^^^^^^^
+  }
+
+You might even think you could use comma-separated values but in this case the last value is returned. The comma (,) operator evaluates each of its operands (from left to right) and returns the value of the last operand.
+
+In this example The value 1 is evaluted and thrown away, returning 2.
+
+  // 2
+  function fn(){
+    return 1, 2
+  }
+
+In this example it increments x 
+
+  let x = (1, 2); 
+
+  console.log(x);  // 2
+
+
+In this example it transforms the text to uppercase then returns it.
+It can be hard to follow because typically developers would write this on separate lines and only return the updated value.
+
+  let x = 'hello';
+
+  function fn(){
+    return x=x.toUpperCase(), x;
+  }
+
+  fn();  // HELLO
+  console.log(x); // HELLO
+
+  // more common to see
+  function fn(){
+    x = x.toUpperCase();
+    return x;
+  }
+
+
+
 
 
 
