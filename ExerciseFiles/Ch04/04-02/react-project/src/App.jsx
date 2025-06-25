@@ -11,14 +11,20 @@ function Header({name, year}) {
   )
 }
 
-function Main({dishes}) { 
+function Main({dishes, openStatus, onStatus}) { 
   return (
-    <main>
-      <img src={chef} height={200} alt="Smiling Restaurant Chef" />
-      <ul style={{listStyleType:'none'}}>
-        {dishes.map(({id, title}) => <li key={id}>{title}</li>)}
-      </ul>
-    </main>
+    <>
+      <button onClick={()=> onStatus(!openStatus)} >
+        {openStatus ? 'Close' : 'Open'} the restaurant
+      </button>
+      <h2>Welcome to our restaurant {openStatus ? 'Open' : 'Closed'}</h2>
+      <main>
+        <img src={chef} height={200} alt="Smiling Restaurant Chef" />
+        <ul style={{listStyleType:'none'}}>
+          {dishes.map(({id, title}) => <li key={id}>{title}</li>)}
+        </ul>
+      </main>
+    </>
   );
 }
 
@@ -47,7 +53,7 @@ function App() {
         {status ? 'Close' : 'Open'} Restaurant
       </button>
       <Header name='Jane' year={new Date().getFullYear()} />
-      <Main dishes={dishObjects} />
+      <Main dishes={dishObjects} openStatus={status} onStatus={setStatus} />
     </>
   )
 }

@@ -146,3 +146,75 @@ Then we can use the value of the status state to update both the paragraph infor
 
 
 
+Handling state with nested components
+-----------------------------------------
+In a React project typically you "lift state" to the highest component, eliminating the number of useState() calls in smaller child components. When you do this it makes it easier for child components to access state and easier to maintain state for the application.
+
+The instructor suggests creating and managing state in the root component such as the App component. You can then pass state down to child components as "props".
+
+The first example shows how the "state" state is passed down from the App component to the child component named Main by using a prop.
+1. Add an attribute to the Main tag "openStatus={status}"
+   This will pass the "status" state as a prop to the Main component
+2. Within the Main component destructure the "openStatus" prop
+   Then use it inside component's h2 tag to display the state.
+
+  function Main({dishes, openStatus}) {
+    return (
+      <>
+        <h2>
+          Welcome to this amazing restaurant. {openStatus ? 'Open', 'Closed'}
+        </h2>
+        <main>
+          ...
+        </main>
+      </>
+    )
+  }
+
+
+  function App(){
+    const [status, setStatus] = useState(true);
+    return (
+      <>
+        <Header name="Jane" year={new Date().getFullYear()} />
+        <Main dishes={dishObjects} openStatus={status} />
+      </>
+    )
+  }
+
+
+
+After doing this, you will notice the current "status" state is available inside of a child component. When the parent (App) updates the state, it gets passed down as a prop to the child component (Main) and both App and Main render the changes to the DOM.
+
+Just like you can pass the current state value as a prop to a child component, you can also pass the state setter function as a prop.
+For example, if you want to allow a child component to update state that is managed in a parent component.
+
+1. pass the setter function (don't invoke it, just send the function)
+2. invoke the setter from within the child with something like a button click
+
+  <Main dishes={dishObjects} openStatus={status} onStatus={setStatus} />
+
+
+  function Main({dishes, openStatus, onStatus}) { 
+    return (
+      <>
+        <button onClick={() => onStatus(!openStatus)}>
+          {openStatus ? 'Close' : 'Open'} the Restaurant
+        </button>
+        <h2>
+          Welcome to our restaurant {openStatus ? 'Open' : 'Closed'}
+        </h2>
+        
+        <main>
+          <img src={chef} height={200} alt="Smiling Restaurant Chef" />
+          <ul style={{listStyleType:'none'}}>
+            {dishes.map(({id, title}) => <li key={id}>{title}</li>)}
+          </ul>
+        </main>
+      </>
+    );
+
+
+The instructor passed the value true to close the restaurant from the Main component. I implemented the same toggle ability as the parent component (App).
+Either way, this shows how a child component can update the application state.
+
