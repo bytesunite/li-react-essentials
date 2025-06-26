@@ -230,11 +230,11 @@ The first step is to import the "useReducer" hook.
         import { useState, useReducer } from 'react';
         ...
 
-Next, we can comment out the line for initializing the "status" state.
+Next, we can removed the import of useState, and comment out or remove the line for initializing the "status" state with useState.
 We will refactor this code.
 
     [App.jsx]
-        import { useState, useReducer } from 'react';
+        import { useReducer } from 'react';
         ...
         function App() {
           // const [status, setStatus] = useState(true);
@@ -276,6 +276,15 @@ After doing this the app works the same as it did with useState, but now it is u
       )
     }
 
+However, you are not stuck with a name "dispatch" for the function name.
+So you can rename this to help describe it's purpose.
+After doing this, update your code with the correct name.
+This instructor uses "toggle" but this is not descriptive on WHAT it is toggling. I chose to call it "toggleStatus", which is a little better.
+
+  const [status, toggleStatus] = useReducer((status)=>!status, true);
+
+
+
 Compare with useState:
 Previously, when using the useState hook, our onClick handler looked a bit different because we called the setter function "setStatus" inside of a callback:
 
@@ -284,7 +293,103 @@ Previously, when using the useState hook, our onClick handler looked a bit diffe
       ...
 
 
+The instructor mentions 
+ * useReducer() allows for more complex state management 
+   but fails to show an example of this.
+ * useReducer() allows you to simply pass the function name
+   instead of providing logic inside of the likes of onClick.
+
+However, the second point doesn't make sense.
+With useState, you can still separate the logic to a function and then provide this handler function to onClick;
+
+  function App() {
+    const [status, setStatus] = useState(true);
+
+    function statusClickHandler {
+      setStatus(!status);
+    }
+
+    return (
+      ...
+      <button onClick={statusClickHandler} ...
+    )
+  }
 
 
+
+Working with the useEffect hook
+----------------------------------------
+The useEffect() hook can be tricky because it is not related to a component rendering. So things like console messages, loading data, working with animations, can benefit from use effect.
+
+The first step is importing this hook
+
+    import {useReducer, useEffect}
+
+Then we can initialize useEffect in the body of the component.
+The useEffect() hook does not return a value like useState() or useReducer().
+
+    function App() {
+      const [status, toggleStatus] = useReducer((status)=>!status, true);
+
+      useEffect(()=>{
+        console.log(`The restaurant is ${status ? 'Open', 'Closed'}.`);
+      });
+
+      return (
+        ...
+      );
+    }
+
+
+Go ahead and open a web browser console and you will see the console.log() message prints "The restaurant is Open" to the console after the component renders. If you clicking a button this triggers and re-render. After the render useEffect() is run again. The effect will run after every re-render.
+
+[Console]
+  The restaurant is Open
+  The restaurant is Closed   // after you click a button
+
+The default behavior of useEffect() is to run every time the component renders. Specifically it will execute AFTER the component render cycle, which the instructor does not talk about.
+When we first open this application in a web browser the component is rendered to the DOM, then useEffect will run. When you click a button it changes the "status" state, which forces a re-render and again useEffect() will execute again AFTER rendering completes.
+
+ATTENTION: The instructor does not do a good job of describing useEffect. The description is that the default bevahior is to render when the state changes. This isn't technically correct. In this app changing the "status" state will force a re-render, which will trigger useEffect when the component finishes rendering. However, any re-render will trigger useEffect().
+
+The useEffect() hook accepts an argument known as a "dependency" array. This helps determine WHEN the effect is invoked.
+
+To make useEffect() run only ONCE, you can provide a second argument, an empty array. This means after the first render it will no longer execute for future re-renders.
+
+      useEffect(()=>{
+        console.log(`The restaurant is ${status ? 'Open', 'Closed'}.`);
+      }, []);
+
+
+After making this change clear the browser console. Refresh the page. You should still see console.log() print the message of the initial render.
+However, if you click a button to invoke a re-render, no more messages will be displayed in the console. You effectively told the effect to run ONCE by providing [] as a second argument.
+
+[CONSOLE]
+  The restaurant is Open
+  // click of button does not print additional messages
+
+
+If you provide a state variable, such as "status", in the dependency array the effect will run every time that specific state changes.
+This can help limit how often the useEffect() hook runs.
+
+      useEffect(()=>{
+        console.log(`The restaurant is ${status ? 'Open', 'Closed'}.`);
+      }, [status]);
+
+
+The instructor does not mention that useEffect() can also create an infinite/endless loop and break your app if you attempt to update the state inside the useEffect hook.
+
+  // DO NOT DO THIS - infinite loop
+  useEffect(() => {
+    toggleStatus();  // or if useState() it would be setStatus(!status)
+  })
+
+For a breakdown
+1. The component renders
+2. The effect runs after the render
+   the state update triggers a re-render
+2. The component immediately re-renders due to the state update in useEffect
+3. The effect runs after the render
+4. oh noooo!!! guess what happens!!!! over and over and over again.
 
 

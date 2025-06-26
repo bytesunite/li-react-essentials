@@ -4,8 +4,9 @@ Errata
 
 
 Chapter 4
-------------------------------------
+---------------------------------------
 [Ch 4-5 Managing State with useReducer]
+---------------------------------------
 Suggestions:
 1. The dispatch function is named "toggle" which is non-descriptive.
    Try using a name like "toggleStatus".
@@ -31,4 +32,15 @@ Suggestions:
         ...
       )
     }
+
+
+
+[ch4-6 Working with the useEffect hook]
+-----------------------------------------
+Suggestions:
+* Explain WHEN useEffect() runs (during or after render). Provide examples. 
+* Explain React's render cycle.
+* Maybe mention that useEffect() is only used on the client, not the server.
+* Point out how useEffect() can cause an endless loop when updating state within the body of the useEffect hook.
+
 
