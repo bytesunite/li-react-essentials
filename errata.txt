@@ -1,0 +1,34 @@
+LinkedIn Learning - React Essentials
+
+Errata
+
+
+Chapter 4
+------------------------------------
+[Ch 4-5 Managing State with useReducer]
+Suggestions:
+1. The dispatch function is named "toggle" which is non-descriptive.
+   Try using a name like "toggleStatus".
+2. The lesson mentions a benefit of useReducer is 
+   more complex state management
+   Sadly, the instructor never demonstrates this.
+3. The lesson mentions a benefit of useReducer is keeping logic
+   out of the likes of onClick.
+   However, you can still do this with useStatus by creating a handler
+   function in the component, then specifying the function name in onClick.
+
+    // handler function with useState
+    function App() {
+      const [status, setStatus] = useState(true);
+
+      function statusToggleHandler() {
+        setStatus(!status);
+      }
+
+      return (
+        ...
+        <button onClick={statusToggleHandler} ...
+        ...
+      )
+    }
+
