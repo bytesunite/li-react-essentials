@@ -5,6 +5,24 @@ Errata
 
 Chapter 4
 ---------------------------------------
+[Ch 4-1 Destructuring arrays]
+Suggestion:
+1. Show how to use JavaScript's ... rest/spread operator
+   Then show how to use this with props in 
+   Ch 4-4 Handling state with neseted components.
+
+
+
+[Ch 4-2 Understanding the useState hook]
+Suggestions
+1. Mention code convention of setter variable name starting with "set",
+   followed by the name of the state variable.
+2. Show how you can define a handler function and assign it to onClick.
+   Later in the course it does this with useReducer but fails to do this
+   earlier when discussing useState.
+
+
+
 [Ch 4-5 Managing State with useReducer]
 ---------------------------------------
 Suggestions:
@@ -42,5 +60,20 @@ Suggestions:
 * Explain React's render cycle.
 * Maybe mention that useEffect() is only used on the client, not the server.
 * Point out how useEffect() can cause an endless loop when updating state within the body of the useEffect hook.
+
+
+
+[ch4-quiz]
+Error(s): answers contain topics that are not discussed in the course.
+
+  * The first question talks about multiple useEffect() calls
+    but this course fails to explain this can be done.
+  * The second question talks about a "modal" 
+    but this topic is never discussed in the course.
+  * The fourth question mentions "Redux" 
+    but this topic is never discussed.
+  * The fifth question needs attention because useReducer()
+    is not fully discussed to demonstrate complex state management
+    The instructor only mentions useReducer() can be used for complex state.
 
 
