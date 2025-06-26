@@ -77,3 +77,17 @@ Error(s): answers contain topics that are not discussed in the course.
     The instructor only mentions useReducer() can be used for complex state.
 
 
+
+Feedback Sent to LinkedIn:
+---------------------------------------
+Quiz answers at end of chapters mention topics or syntax not covered in the video instruction (Modals, Redux, multiple effects). 
+
+The course fails to talk about and provide examples demonstrating 
+* separate component files
+* React render cycle as it pertains to useEffect
+* rest/spread operator and how this works with props
+* click handler functions 
+* examples of useReducer complex state
+* modals
+* default parameters
+
