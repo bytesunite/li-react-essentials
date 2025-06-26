@@ -218,3 +218,73 @@ For example, if you want to allow a child component to update state that is mana
 The instructor passed the value true to close the restaurant from the Main component. I implemented the same toggle ability as the parent component (App).
 Either way, this shows how a child component can update the application state.
 
+
+
+Managing State With useReducer
+--------------------------------------------
+This lesson takes a look at an alternative way to manage state for your app with the "useReducer" hook.
+
+The first step is to import the "useReducer" hook.
+
+    [App.jsx]
+        import { useState, useReducer } from 'react';
+        ...
+
+Next, we can comment out the line for initializing the "status" state.
+We will refactor this code.
+
+    [App.jsx]
+        import { useState, useReducer } from 'react';
+        ...
+        function App() {
+          // const [status, setStatus] = useState(true);
+          ...
+        }
+
+
+The "useReducer" hook returns an array of 2 items.
+ * the state variable, 
+ * a function known as a "dispatcher" which lets you 
+   update the state to a different value and trigger a re-render.
+
+The first argument to "useReducer()" is a reducer function, which takes the state as an arguent and the function specifies how the state gets updated.
+The second argument is the initial state value.
+
+In the first example, the instructor provides the reducer function directly inside of the useReducer hook. However, you can create reducer function in the App component and provide the name of the function to useReducer.
+EX: function myReducer(){...}    useReducer(myReducer, true)
+
+    function App() {
+      const [status, dispatch] = useReducer((status)=>!status, true);
+    }
+
+Now when we want to update state we can provide the "dispatch" function.
+Here we update the <button> "onClick", and the Main attribute "onStatus".
+After doing this the app works the same as it did with useState, but now it is using the useReducer() hook.
+
+
+    function App() {
+      const [status, dispatch] = useReducer((status)=>!status, true);
+
+      return (
+        ...
+        <button onClick={dispatch}>
+          {status : 'Close' : 'Open'} {" "}
+          Restaurant
+        </button>
+        ...
+        <Main dishes={dishObjects} openStatus={status} onStatus={dispatch} />
+      )
+    }
+
+Compare with useState:
+Previously, when using the useState hook, our onClick handler looked a bit different because we called the setter function "setStatus" inside of a callback:
+
+    // useState
+    <button onClick={()=> setStatus(!status)} >
+      ...
+
+
+
+
+
+
