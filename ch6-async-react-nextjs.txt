@@ -1,0 +1,93 @@
+Chapter 6 - Asynchronous React in Next.js
+
+* Fetching data in React applications
+* Passing data as props
+* Creating a client component
+* Building a form
+* Creating a server action
+
+
+Fetching data in React Applications
+----------------------------------------
+Fetching data is a common thing to do in a server component.
+To demonstrate the instructor opens a route for "mountain" and modifies the Page component in page.js.
+
+1) Within "src/app/mountain/page.js", create an async function outside of the Page component. 
+For clarity, "fetch()" is a Next.js wrapper around the browser fetch API that you may be used to.
+The instructor provides an path to an api provided by "fly.dev".
+(https://snowtooth-api-rest.fly.dev)
+
+    [mountain/page.js]
+      async function getData() {
+        const res = await fetch('https://snowtooth-api-rest.fly.dev');
+        return res.json();
+      }
+
+2) modify your Page component function to be asynchronous using the "async" keyword before the "function" keyword. This is required in order to use "await" inside your function component.
+
+    export default async function Page(){
+      const data = await getData();
+      return (
+        <main>
+          <h1>Lift status info</h1>
+        </main>
+      )
+    }   
+
+
+This instructor's code so far looks like the "getData()" function is called every time this component rerenders.
+All of this together looks like the following.
+
+[mountain/page.js]
+  async function getData() {
+    const res = await fetch('https://snowtooth-api-rest.fly.dev');
+    return res.json();
+  }
+
+  export default async function Page(){
+    const data = await getData();
+    return (
+      <main>
+        <h1>Lift State Info</h1>
+        <div>{JSON.stringify(data)}</div>
+      </main>
+    )
+  }
+
+
+If all went well it spits out a ton of trail data on the page.
+
+To help display this information in a more readable format the instructor creates a table.
+NOTE: The instructor makes a mistake with trying to map the response.
+      EX: data.data.allLifts.map()
+      FIX: data.map()
+
+
+  export default async function Page(){
+    const data = await getData();
+    return (
+      <main>
+        <h1>Lift State Info</h1>
+        <Table>
+          <thead>
+            <tr>
+              <th>Lift Name</th>
+              <th>Current Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((lift) => (
+              <tr key={lift.id}>
+                <td>{lift.name}</td>
+                <td>{lift.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        <Table/>
+      </main>
+    )
+  }
+
+
+The instructor ends the lesson by stating that fetching data is best done in a server component and that it is typically faster because fetching is done on the server rather than on the client with client components.
+
