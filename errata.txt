@@ -82,8 +82,11 @@ Error(s): answers contain topics that are not discussed in the course.
 
 
 [ch5-3 Building a Server Component]
+ISSUES:
 * The video talks about "hydrating" but this term is not familiar. The instructor needs to explain what this means.
-
+* The source code looks bloated with <div> tags
+* Each route wraps content in a <main> tag. 
+  Why not put the <main> tag in the RootLayout component within "layout.js"?
 
 
 

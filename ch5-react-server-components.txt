@@ -229,3 +229,85 @@ KEY:
 This looks like a mess but so be it.
 FYI: <Link> renders an anchor tag <a> in the DOM
 
+
+Challenge: Creating a route
+-------------------------------
+The starting file can be found at branch 05_04b:
+
+STARTING FILE URL:
+https://github.com/LinkedInLearning/react-essential-training-5949338/tree/05_04b
+
+README URL:
+https://github.com/LinkedInLearning/react-essential-training-5949338/blob/05_04b/next-react-project/README.md
+
+* Create a new route at /contact
+* Render a Page Component at /contact
+* Test to make sure this is rendering appropriately
+* Extra Credit: Add a link to the contact route from the Header
+
+
+NOTE: I chose to use my existing project rather than downloading the same content.
+
+
+MY SOLUTION: (this challenge was easy)
+
+  src/
+    app/
+      contact/
+        page.js
+
+[page.js]
+   export default function Page() {
+      return <h2>Contact</h2>;
+   }
+
+[src/app/layout.js]
+  ...
+  function Header(){
+    ...
+      <Link href="/contact">Contact</Link>
+    ...
+  }
+
+
+
+Solution: Creating a route
+-------------------------------------
+An time you want to create a new route go the the "app" folder.
+Add a "contact" folder.
+
+  src/
+    app/
+      contact/
+        page.js
+
+Create a "page.js" file inside the contact folder.
+Inside this file create a default export for a Page component.
+
+[page.js]
+   export default function Page() {
+      return (
+        <main>
+          <h1>Contact Us</h1>
+        </main>
+      );
+   }
+
+
+For the extra credit go to the Header component in "src/app/layout.js"
+Copy and paste an existing div and modify it for the contact link.
+
+[src/app/layout.js]
+  ...
+  function Header(){
+    ...
+      <Link href="/contact">Contact Us</Link>
+    ...
+  }
+
+
+
+The instructor wraps each individual route in <main> and extra <div> tags.
+I'm not sure this is the best solution but so be it.
+This seems like your are repeating yourself. I wonder why the RootLayout component doesn't just wrap the children in a <main> tag?
+
