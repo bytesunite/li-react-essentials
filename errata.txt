@@ -77,6 +77,15 @@ Error(s): answers contain topics that are not discussed in the course.
     The instructor only mentions useReducer() can be used for complex state.
 
 
+[ch5-2 Using the App Router]
+* The video fails to mention if a route's page.js must use the component name Page. Using any component name in the file page.js seems to work. However renaming the file "page.js" to anything else seems to fail.
+
+
+[ch5-3 Building a Server Component]
+* The video talks about "hydrating" but this term is not familiar. The instructor needs to explain what this means.
+
+
+
 
 Feedback Sent to LinkedIn:
 ---------------------------------------

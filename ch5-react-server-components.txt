@@ -153,3 +153,79 @@ The exception is the homepage, where the "page.js" goes directly in the "app" fo
 The <Link> component is used to navigate between routes.
 If you want a component to display on every page, place the element in the RootLayout of "layout.js".
 
+
+
+Building a server component
+------------------------------------
+By default Next.js automatically creates a "server component" from your code as you create routes in the "app" folder.
+A "server component" can be rendered and cached on the server to optimize your application.
+As a developer you don't need to manually configure your next.js app for server rendering as this is the default behavior.
+
+If you look at the generated elements of your application you will see a bunch of "chunks" in the <head>. Next.js does its best to optimize your applications.
+
+NOTE: You route components MUST have a default export.
+
+The instructor talks about the application rendering a preview of HTML and interactive UI can be "hydrated" with JavaScript. This description makes no sense, the instructor is making too many assumptions.
+
+
+The instructor creates a second route "hotels" with a default export in the page.js file.
+For whatever reason the instructor is <div> happy, wrapping semantic code in useless containers.
+
+src/
+  app/
+    hotels/
+      page.js
+
+[page.js]
+    export default function Page() {
+      <main>
+        <div>
+          <h1>Hotel Details</h1>
+        </div>
+      </main>
+    }
+
+
+
+Before moving on, the instructor shows how to improve styling using Tailwind.
+Tailwind is a CSS Framework that uses a large collection of classes that provide a concise way to write CSS. Once you get familiar with the classes it can be helpful (p-1 is padding:4px, w-60 is width:240px, etc.)
+URL: https://v3.tailwindcss.com/docs/installation
+
+EX (CSS): style={{backgroundColor:'#ccc'}}
+EX (Tailwind): className="bg-gray-300"
+
+
+The instructor updates styling of Header component in "layout.js":
+KEY: 
+  * bg-slate-500       is a medium gray background color
+  * py-4               16px of padding along the y axis (top/bottom)
+  * px-4               16px of padding along the x axis (left/right)
+  * mx-auto            auto margins on the x axis
+  * container          sets the max-width to match min-width of current
+                       breakpoint. Useful for fixed set of screen sizes.
+                       Use mx-auto to center a container (it is not by default)
+
+    function Header(){
+      return (
+        <header className="bg-slate-500 py-4">
+          <div className="container mx-auto px-4">
+            <nav className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Link href="/">Snowtooth Mountain</Link>
+              </div>
+              <div>
+                <Link href="/mountain">Mountain info</Link>
+              </div>
+              <div>
+                <Link href="/hotels">Hotels</Link>
+              </div>
+            </nav>
+          </div>
+        </header>
+      )
+    }
+
+
+This looks like a mess but so be it.
+FYI: <Link> renders an anchor tag <a> in the DOM
+
