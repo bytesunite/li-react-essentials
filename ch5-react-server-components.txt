@@ -1,0 +1,85 @@
+Chapter 5 - React Server Components
+
+* Creating a project with Next.js
+* Using the App Router
+* Building a server component
+* Challenge: Creating a route
+* Solution: Creating a route
+
+
+Creating a project with Next.js
+-----------------------------------
+This chapter will explore Next.js, a popular React framework for the Web.
+URL: https://nextjs.org
+
+To create a new Next.js app open a terminal and enter the following npx command. Then it will provide many prompts to setup your app.
+
+  > npx create-next-app@latest
+  What is your project name? next-react-project
+  Would you like to use TypeScript? No
+  Would you like to use ESLint? No
+  Would you like to use Tailwind CSS? Yes
+  Would you like to use `src/` directory? Yes
+  Would you like to use App Router? Yes
+  Would you like to customize the default import alias? No
+
+Then Next.js will install the packages, create a new project scaffold, and configure the project.
+
+Change to the new project directory (next-react-project)
+
+  > cd next-react-project
+
+The instructor fails to mention this but Next.js collects data. To disable Next.js telemetry run the following command from your project directory.
+
+  next-react-project/> npx next telemetry disable
+
+To see the current status of npm telemetry run the following command from your project directory:
+
+  next-react-project/> npx next telemetry status
+  Status: Disabled
+
+
+Finally, you can start up your Next.js development environment
+which starts up a local server at localhost on port 3000.
+
+  next-react-project/> npm run dev
+
+If you open a web browser you will see the Next start page, which includes title, list and buttons:
+
+   NEXT.js
+   1. Get started by editing src/app/page.js.
+   2. Save and see your changes instantly.
+
+   (Deploy Now)   (Read our docs)
+
+   Learn     Examples       Go to nextjs.org
+
+
+When you explore the Next.js project structure you will find a "src/app" directory. This is where the instructor will focus on creating the app.
+The instructor says all the files for this project will live in the "app" folder, which the instructor calls the "app router".
+By placing our files in "app" we can create "routes" for the application.
+
+The "layout.js" in "src/app" is the "meta data" of the project as well as the html. You will see a "RootLayout" component that returns an <html> tag with a single child <body> tag. The RootLayout component accepts a children prop to insert child elements into the <body> tag.
+
+The "page.js" file in "src/app" is the main page for your project.
+It has a component named "Home", representing the home page for your application. This page is rendered when you go to the "/" route in your web browser (http://localhost:3000/).
+
+
+So let's get started.
+First, remove the imported image, then strip out all code between the <main> tags in "src/app/home.js".
+Inside the <main> tag create a simple <h1> to test out what happens when we modify and save this file.
+
+[src/app/page.js]
+  export default function Home(){
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <h1>More React to come</h1>
+    </main>
+  }
+
+
+If all went well you should now see our header when going to (http://localhost:3000/).
+
+
+
+
+
