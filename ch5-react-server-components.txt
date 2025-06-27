@@ -81,5 +81,75 @@ If all went well you should now see our header when going to (http://localhost:3
 
 
 
+Using the App Router
+----------------------------------
+In a next.js project the "app" directory is where you specify your "routes".
+Next.js uses a file-based routing structure that you can use.
 
+This means whenever you create a new folder inside of the "src/app" folder, it creates a new route. Within this new folder you define a "page.js" file to specify your route page, which is the content you want to see when you navigate to that route.
+
+  src/
+    app/
+      mountain/
+        page.js
+
+[page.js]
+    export default function Page(){
+      <main>
+        <h1>Lift Status Info</h1>
+      </main>
+    }
+
+
+
+Go to http://localhost:3000/mountain
+
+You should see the page your just created in src/app/mountain/page.js
+
+NOTE: The "app" folder is not always in the "src" folder, but you will still find routes in the "app" folder.
+
+
+If you want a component rendered on every page you can use "src/app/layout.js".
+The <Link> component is from Next.js, which allows you to render a specific componet when the page url matches the Link's "href" path.
+
+[src/app/layout.js]
+  ...
+  import Link from 'next/link';
+  ...
+  function Header() {
+    return (
+      <header>
+        <nav>
+          <Link href='/' >Snowtooth Mountain</Link>
+          <Link href='/mountain'>Mountain Info</Link>
+        </nav>
+      </header>
+    );
+  }
+  ...
+
+
+Now, with a Header component defined in "src/layout.js", you can add this component to the html at the bottom of the layout file within the RootLayout component.
+
+    export default function RootLayout({ children }) {
+      return (
+        <html lang="en">
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            <Header />
+            {children}
+          </body>
+        </html>
+      );
+    }
+
+
+So new we should see the header with the two links on both the homepage "/" and at the mountain info page "/mountain".
+
+Summary:
+Routes are created by creating a folder in the "app" folder and creating a "page.js" file with the content to display for the page.
+The exception is the homepage, where the "page.js" goes directly in the "app" folder without placing it in another route folder.
+The <Link> component is used to navigate between routes.
+If you want a component to display on every page, place the element in the RootLayout of "layout.js".
 
