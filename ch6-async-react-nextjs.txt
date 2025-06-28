@@ -147,3 +147,128 @@ The prop is sent from within the Page component to the new component element.
 As you can see, the Page component invokes the asynchronous getData() function which makes a request to the server and the function return json.
 The we can pass any part of this data to other components.
 In the example above we loop through the data and grab the (key, name, capacity) for each item and pass this data as arguments to HotelBlock.
+
+
+Creating a client component
+----------------------------------
+As we have learned the default behavior of Next.js is to create "server components". In the last lesson we showed how we fetched data from an online API using a server component & passed data to another component to render some UI.
+
+However, "client components" are used for
+* Interactivity - Client components can use state, effects, & event listeners.
+  This means they provide immediate feedback to the user.
+* Browser APIs - Client components have access to Browser APIs,
+  like Geolocation or Local Storage.
+
+NextJS Documentation - Client Components
+https://nextjs.org/docs/app/building-your-application/rendering/client-components
+
+
+First, we will create a solution that does NOT work.
+Then explain why and fix it. The reason of course is that next creates "server components" by default and we need to take additional steps to create "client components.
+
+This project has 5 hotel images in the "public/hotels" folder.
+If you didn't start a new project you can find the images here:
+https://github.com/LinkedInLearning/react-essential-training-5949338/tree/06_03b/next-react-project/public/hotels
+
+Next.js has a <Image> component that you can use to load image files.
+We will use this rather than <img>.
+
+Lets get started.
+1. Open hotels/page.js and import the Image component
+
+[hotels/page.js]
+  import Image from 'next/image';
+
+2. Update the HotelBlock component to accept an 'id'
+    prop. This will be used as a filename for a hotel image.
+    The fetched data has an "id" for each hotel.
+    
+    function HotelBlock({name, capacity, id}) {
+    }
+
+3. create a new function to generate a path to the image.
+   This function will be used as a "loader" for the Image component.
+   The Image component has a "src" property that we will destructure
+   and use the value in this function.
+   The images of the hotels are at the path like "public/hotels/01.jpeg"
+
+    function HotelBlock({name, capacity, id}) {
+      const imageLoader = ({src}) => {
+        return `./hotels/${src}.jpeg`;
+      }
+    }
+
+4. Add an Image tag to the HotelBlock component. This next.js component has a "loader" attribute where you can specify the imageLoader function.
+The specified function will get access to attributes of the Image tag,
+and this is why in step 3 we destructured the "src" prop.
+The id of a hotel is provided as the value to the "src" prop.
+
+    function HotelBlock({name, capacity, id}) {
+      const imageLoader = ({src}) => {
+        return `./hotels/${src}.jpeg`;
+      }
+
+      return (
+        <div>
+          <h2>{name}</h2>
+          <p>{capacity}<p>
+          <Image src={id} width={300} height={300} loader={imageLoader} />
+        </div>
+      )
+    }
+
+5. Update the <HotelBlock> tag in the Page component to accept an "id" attribute that takes the hotel.id as its value.
+
+    export default async function Page() {
+      const data = await getData();
+      
+      return (
+        <div>
+          <h1>Hotel info</h1>
+          {data.map(hotel => (
+            <HotelBlock 
+              key={hotel.id} 
+              name={hotel.name} 
+              capacity={hotel.capacity} 
+              id={hotel.id} 
+            />
+          ))}
+        </div>
+      );
+    }
+
+
+
+At this point we are attempting to load images in the Next.js application.
+An ERROR is thrown saying functions cannot be passed directly to client components.
+It complains about the Image "loader" attribute.
+
+The instructor says this error message is due to the fact that the <HotelBlock> component needs to be a "client component" to work.
+
+The solution is to 
+1. grab the HotelBlock component and put it into its own file and make the component the default export.
+2. remove the import for Image in the Page component. Put it in the other file.
+3. On the first line of the HotelBlock component file write "use client".
+   This is needed for any activity such as button clicks, trying to look in the "public" directory, browser APIs like Geolocation or LocalStorage
+   
+Finally import the HotelBlock component from the new file.
+
+[src/app/hotels/HotelBlock.js]
+  "use client"
+  import Image from 'next/image';
+
+  export default function HotelBlock({name}, {capacity}, {id}){
+    // same as before
+  }
+
+
+[src/app/hotels/page.js]
+  import HotelBlock from './HotelBlock.js'
+
+  // same as before
+
+
+
+NOTE: When you use the Next.js Image component an error is thrown if you do not specify a (width, height) attribute with a numeric value.
+Even when you do you can soft warning saying it has width or height modified but not the other.
+
