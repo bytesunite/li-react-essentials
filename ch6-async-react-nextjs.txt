@@ -325,3 +325,77 @@ And "mx" is margin along x axis, "mb" is bottom margin, "p" is padding.
         <button className="text-white bg-blue-600 rounded-md p-3" ...>
         ...
 
+
+
+Creating a server action
+----------------------------------
+"Server actions" are functions that can be executed on the server and can be called from both "server components" and "client components".
+Server actions are used for things like form submissions and data mutations.
+The previous lesson created a contact form at the "contact" route for use in this lesson.
+
+NOTE: React 19 introduced Actions, <form> has been updated to accept "actions"
+      URL: https://react.dev/blog/2024/12/05/react-19#whats-new-in-react-19
+
+To demonstrate this the server action will be created in the same file as the contact form. 
+Form Actions help reduce the boilerplate of creating state variables to manage form submission, such as the current state of the form submission and errors. Form Actions also automatically call the event object's preventDefault, which is common for SPA apps like React.
+
+An async function is created that accepts a "FormData" object, which is a special object when dealing with HTML forms.
+The "use server" statement (known as a directive) tells Next.js that this is a "server component" that can be called from client code.
+The client code is the function "submitForm" that is available on the client side that will be called when the form is submitted.
+
+[contact/page.js]
+  export default function Page() {
+    async function submitForm(formData) {
+      "use server";
+    }
+  }
+
+Then we will process the form fields using the FormData object. The "get()" method is used to access form fields by name (<input name="email">).
+This data will be logged to see what we get. We don't have a backend setup to handle the submission so we just log the submission details.
+NOTE: Since Next.js uses server components by default the console.log messages will be displayed in your Terminal running the instance of your local server, not the browser Console.
+
+[contact/page.js]
+  export default function Page() {
+    async function submitForm(formData) {
+      "use server";
+      const formFields = {
+        email: formData.get('email'),
+        message: formDate.get('message'),
+      }
+      console.log('Form Fields', formFields);
+      console.log('TODO: Send these form field values to a backend');
+      return formFields;
+    }
+
+    return (
+      ...
+    )
+  }
+
+
+To wire up our form with our Action function with React 19 is by specifying the function as a value to the "action" attribute of the <form> tag.
+
+[contact/page.js]
+  export default function Page() {
+    async function submitForm(formData) {
+      "use server";
+      const formFields = {
+        email: formData.get('email'),
+        message: formDate.get('message'),
+      }
+      console.log('Form Fields', formFields);
+      console.log('TODO: Send these form field values to a backend');
+      return formFields;
+    }
+
+    return (
+      ...
+      <form action={submitForm} ...
+    )
+  }
+
+
+Go ahead and start up your application, navigate to your contact form, input an email address and message and click the Submit button.
+Then, go to your terminal and see what details are displayed about our form submission.
+If all went well you will see the formFields and the TODO message.
+

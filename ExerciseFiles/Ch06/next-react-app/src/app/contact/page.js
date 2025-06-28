@@ -1,8 +1,20 @@
 export default function Page() {
+
+  async function submitForm(formData) {
+    "use server";
+    const formFields = {
+      email: formData.get('email'),
+      message: formData.get('message'),
+    };
+    console.log('Form Fields:', formFields);
+    console.log('TODO: Send these form field values to a backend');
+    return formFields;
+  }
+
   return (
     <main className="max-w-md mx-auto p-6 bg-white shadow-md rounded-md">
       <h1 className="text-2xl font-bold text-center mb-6 text-black">Contact</h1>
-      <form className="space-y-4">
+      <form action={submitForm} className="space-y-4">
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700">
             Email
