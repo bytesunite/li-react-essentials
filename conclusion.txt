@@ -1,0 +1,16 @@
+Conclusion
+-----------------------------------
+
+To continue your knowledge a few suggestions are provided
+
+* Next.js data storage
+Learn how to store data in databases, REST APIs, GraphQL
+
+* React Server Components
+
+* Caching
+
+
+You can go to the Next.js documentation to learn about a range of topics (testing, authentication, deployment).
+URL: https://nextjs.org/docs
+
