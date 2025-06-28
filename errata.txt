@@ -88,6 +88,14 @@ ISSUES:
 * Each route wraps content in a <main> tag. 
   Why not put the <main> tag in the RootLayout component within "layout.js"?
 
+[ch6-5 Creating a server action]
+SUGGESTION:
+* point out that actions are a new feature of React 19 and show how form submission was performed before Form Actions.
+
+[ch6-quiz]
+ERROR(s):
+* Question 2 incorrectly uses "class" instead of "className"
+* Question 2 fails to provide an answer with the "required" keyword
 
 
 Feedback Sent to LinkedIn:
@@ -98,8 +106,11 @@ The course fails to talk about and provide examples demonstrating
 * separate component files
 * React render cycle as it pertains to useEffect
 * rest/spread operator and how this works with props
-* click handler functions 
+* click handler functions (separate function vs inline handler function)
 * examples of useReducer complex state
 * modals
 * default parameters
+* React 19 actions are a new feature. Explain form submission before actions.
+
+
 
