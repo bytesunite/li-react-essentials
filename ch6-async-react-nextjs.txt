@@ -91,3 +91,59 @@ NOTE: The instructor makes a mistake with trying to map the response.
 
 The instructor ends the lesson by stating that fetching data is best done in a server component and that it is typically faster because fetching is done on the server rather than on the client with client components.
 
+
+
+Passing data as props
+-------------------------------
+By default a next.js app uses server components.
+This means the HTML for the pages is rendered on the server.
+
+If there is anything interactive in a Next.js app, it needs to be handled another way.
+
+This is demonstrated with the "hotels" route.
+The initial code is the same as the previous lesson where we create a function to fetch the data, then inside the component we call the asynchronous function.
+
+Then, a separate component is created that will take in a prop for an individual hotel and render the name and capacity in a div.
+The prop is sent from within the Page component to the new component element.
+
+  src/
+    app/
+      hotels/
+        page.js
+
+
+[page.js]
+
+  async function getData() {
+    const res = await fetch('https://snowtooth-hotel-api.fly.dev');
+    return res.json();
+  }
+
+  function HotelBlock({name, capacity}) {
+    return (
+      <div>
+        <h2>{name}</h2>
+        <p>{capacity}</p>
+      </div>
+    )
+  }
+
+  export default async function Page(){
+    const data = await getData();
+
+    return (
+      <h1>Hotel info</h1>
+      {data.map(hotel => (
+        <HotelBlock 
+          key={hotel.id} 
+          name={hotel.name} 
+          capacity={hotel.capacity} 
+        />
+      ))}
+    );
+  }
+
+
+As you can see, the Page component invokes the asynchronous getData() function which makes a request to the server and the function return json.
+The we can pass any part of this data to other components.
+In the example above we loop through the data and grab the (key, name, capacity) for each item and pass this data as arguments to HotelBlock.
